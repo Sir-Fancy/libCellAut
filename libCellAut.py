@@ -35,7 +35,6 @@ class CellAut(object):
 
     
     def tick(self):
-        #self.stage[:] = self.field[:]
         for row in self.field:
             for cell in row:
                 cell.stage(str(int(str(cell)) + 1))
@@ -65,10 +64,7 @@ class CellAut(object):
             
         def __str__(self):
             return self.val
-        
-        def __repr__(self): #not needed
-            return self.val
-        
+
         def adjacent(self, search):
             count = 0
             for i in [(self.x-1, self.y), (self.x+1, self.y), (self.x, self.y-1), (self.x, self.y+1)]:
@@ -79,16 +75,11 @@ class CellAut(object):
                 if v == search:
                     count += 1
             return count
-                
-                    
-            #print(self.parent.field)
-            #__import__("sys").exit(0)
-        
-        
+
         def stage(self, v):
             self.staged = v
         
-        def commit(self): #find way to call this for everyone
+        def commit(self):
             self.val = self.staged
 
 if __name__ == '__main__':
