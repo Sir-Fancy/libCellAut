@@ -9,7 +9,6 @@ import sys
 class Fractal(CellAut):
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
-        curses.init_pair(1, curses.COLOR_GREEN, -1)
         self.field[20,20].stage("#")
         self.field[21,21].stage("#")
         self.field[22,19].stage("#")
@@ -26,14 +25,6 @@ class Fractal(CellAut):
                 elif cell.val == self.blank:
                     if cell.surrounding("#") == 3:
                         cell.stage("#")
-                    
-                
-    
-    def disp(self):
-        for row in self.field:
-            for cell in row:
-                    self.stdscr.addstr(cell.y, cell.x, str(cell), curses.color_pair(1))
-        self.stdscr.refresh()
 
 def main():
     try:
