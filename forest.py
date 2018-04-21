@@ -2,6 +2,9 @@
 from libCellAut import CellAut
 import numpy as np
 from blessings import Terminal
+import curses
+import time
+import traceback
 
 class Forest(CellAut):
     def firstframe(self):
@@ -10,7 +13,7 @@ class Forest(CellAut):
         for row in self.field:
             for cell in row:
                 if np.random.random() < 0.01:
-                    cell.stage("A")
+                   cell.stage("A")
     
     def tick(self):
         for row in self.field:
@@ -29,20 +32,39 @@ class Forest(CellAut):
                     cell.attr["life"] = 3
     
     def disp(self):
-        #TODO use ncurses
-        s = ""
+        global stdscr
         for row in self.field:
             for cell in row:
-                s += str(cell)
-            s += "\n"
-        n = s.replace("&", "\033[1;31m&\033[0;0m")
-        print("\n\n\n\n\n\n\n" + n)
-            
+                if str(cell) == "&":
+                    stdscr.addstr(cell.y, cell.x, str(cell), curses.color_pair(1))
+                else:
+                    stdscr.addstr(cell.y, cell.x, str(cell))
+        stdscr.refresh()
+               
+        # for row in self.field:
+        #     for cell in row:
+        #         stdscr.addstr(cell.y, cell.x, "({},{})".format(cell.x, cell.y))
+        #         stdscr.refresh()
 
 def main():
-    f = Forest(rows = 50, cols = 90, blank = " ", speed = 0.5)
-    f.simulate()
-
-
+    global stdscr
+    stdscr = curses.initscr()
+    curses.noecho()
+    curses.start_color()
+    curses.curs_set(False)
+    curses.use_default_colors()
+    curses.init_pair(1, curses.COLOR_RED, -1) #add curses to libCellAut
+    try:
+        f = Forest(cols = 90, rows = 50, blank = " ", speed = 1)
+        f.simulate()
+    except KeyboardInterrupt:
+        curses.echo()
+        curses.endwin()
+        curses.curs_set(True)
+    except BaseException as e:
+        curses.echo()
+        curses.endwin()
+        curses.curs_set(True)
+        print(traceback.format_exc())
 if __name__ == '__main__':
     main()

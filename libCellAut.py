@@ -3,18 +3,16 @@ import time
 import numpy as np
 
 class CellAut(object):
-    def __init__(self, rows = 20, cols = 40, blank = " ", speed = 1.0):
-        self.rows = rows
+    def __init__(self, cols = 40, rows = 20, blank = " ", speed = 1.0):
         self.cols = cols
+        self.rows = rows
         self.blank = blank
         self.speed = speed
         self.field = np.empty((rows, cols), object)
-        for y in range(len(self.field[0])):
-            for x in range(len(self.field)):
-                self.field[x,y] = CellAut.Cell(self, x, y, self.blank)
-        
-        #somewhere at the end of a frame needs to be self.field[:] = self.stage[:]
-        
+        for y in range(self.rows):
+            for x in range(self.cols):
+                self.field[y,x] = CellAut.Cell(self, x, y, self.blank)
+                
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
         #self.i = 0
@@ -67,7 +65,7 @@ class CellAut(object):
 
         def adjacent(self, search):
             count = 0
-            for i in [(self.x-1, self.y), (self.x+1, self.y), (self.x, self.y-1), (self.x, self.y+1)]:
+            for i in [(self.y-1, self.x), (self.y+1, self.x), (self.y, self.x-1), (self.y, self.x+1)]: #y always comes first! dont forget!!
                 try:
                     v = str(self.parent.field[i])
                 except IndexError:
