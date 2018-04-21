@@ -25,7 +25,7 @@ class CellAut(object):
         for row in self.field:
             for cell in row:
                 if np.random.random() < 0.2:
-                    cell.val = "1"
+                    cell.stage("1")
         
     def simulate(self):
         starttime = time.time()
@@ -70,6 +70,8 @@ class CellAut(object):
         def adjacent(self, search):
             count = 0
             for i in [(self.y-1, self.x), (self.y+1, self.x), (self.y, self.x-1), (self.y, self.x+1)]: #y always comes first! dont forget!!
+                if -1 in i:
+                    continue #skip -1 because python will wrap it around
                 try:
                     v = str(self.parent.field[i])
                 except IndexError:
