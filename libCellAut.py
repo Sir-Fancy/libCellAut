@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import time
 import numpy as np
+import curses
 
 class CellAut(object):
     def __init__(self, cols = 40, rows = 20, blank = " ", speed = 1.0):
@@ -12,6 +13,11 @@ class CellAut(object):
         for y in range(self.rows):
             for x in range(self.cols):
                 self.field[y,x] = CellAut.Cell(self, x, y, self.blank)
+        self.stdscr = curses.initscr()
+        curses.noecho()
+        curses.start_color()
+        curses.curs_set(False)
+        curses.use_default_colors()
                 
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
@@ -44,12 +50,10 @@ class CellAut(object):
     
     def disp(self):
         #TODO use ncurses
-        s = ""
         for row in self.field:
             for cell in row:
-                s += str(cell)
-            s += "\n"
-        print(s)
+                self.stdscr.addstr(cell.y, cell.x, str(cell))
+        self.stdscr.refresh()
                 
     class Cell(object):
         def __init__(self, parent, x, y, val, attr = {}):
@@ -83,4 +87,3 @@ class CellAut(object):
 if __name__ == '__main__':
     test = CellAut(blank = "0")
     test.simulate()
-    

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from libCellAut import CellAut
 import numpy as np
-from blessings import Terminal
 import curses
 import time
 import traceback
@@ -9,7 +8,7 @@ import traceback
 class Forest(CellAut):
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
-        self.t = Terminal()
+        curses.init_pair(1, curses.COLOR_RED, -1)
         for row in self.field:
             for cell in row:
                 if np.random.random() < 0.01:
@@ -32,14 +31,13 @@ class Forest(CellAut):
                     cell.attr["life"] = 3
     
     def disp(self):
-        global stdscr
         for row in self.field:
             for cell in row:
                 if str(cell) == "&":
-                    stdscr.addstr(cell.y, cell.x, str(cell), curses.color_pair(1))
+                    self.stdscr.addstr(cell.y, cell.x, str(cell), curses.color_pair(1))
                 else:
-                    stdscr.addstr(cell.y, cell.x, str(cell))
-        stdscr.refresh()
+                    self.stdscr.addstr(cell.y, cell.x, str(cell))
+        self.stdscr.refresh()
                
         # for row in self.field:
         #     for cell in row:
@@ -47,13 +45,6 @@ class Forest(CellAut):
         #         stdscr.refresh()
 
 def main():
-    global stdscr
-    stdscr = curses.initscr()
-    curses.noecho()
-    curses.start_color()
-    curses.curs_set(False)
-    curses.use_default_colors()
-    curses.init_pair(1, curses.COLOR_RED, -1) #add curses to libCellAut
     try:
         f = Forest(cols = 90, rows = 50, blank = " ", speed = 1)
         f.simulate()
