@@ -99,6 +99,19 @@ class CellAut(object):
                     count += 1
             return count
 
+        def surrounding(self, search): #like adjacent but with diagonals
+            count = 0
+            for i in [(self.y-1, self.x), (self.y+1, self.x), (self.y, self.x-1), (self.y, self.x+1), (self.y-1, self.x-1), (self.y+1, self.x+1), (self.y-1, self.x+1), (self.y+1, self.x-1)]: 
+                if -1 in i:
+                    continue #skip -1 because python will wrap it around
+                try:
+                    v = str(self.parent.field[i])
+                except IndexError:
+                    continue
+                if v == search:
+                    count += 1
+            return count
+
         def stage(self, v):
             self.staged = v
         
