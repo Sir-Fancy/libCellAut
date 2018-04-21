@@ -2,22 +2,36 @@
 import time
 import numpy as np
 import curses
+import sys
+import traceback
 
 class CellAut(object):
-    def __init__(self, cols = 40, rows = 20, blank = " ", speed = 1.0):
-        self.cols = cols
-        self.rows = rows
+    def __init__(self, blank = " ", speed = 1.0):
+        self.stdscr = curses.initscr()
+        self.rows, self.cols = self.stdscr.getmaxyx()
+        self.rows -= 1 #for some reason I cant use curses to print in the bottom right corner so i gotta delete a row
         self.blank = blank
         self.speed = speed
-        self.field = np.empty((rows, cols), object)
+        self.field = np.empty((self.rows, self.cols), object)
         for y in range(self.rows):
             for x in range(self.cols):
                 self.field[y,x] = CellAut.Cell(self, x, y, self.blank)
-        self.stdscr = curses.initscr()
+
+
+        # if self.cols > maxX or self.rows > maxY - 1: 
+        #     self.destroy_curses()
+        #     raise RuntimeError("Automaton field exceeds terminal size")
         curses.noecho()
         curses.start_color()
         curses.curs_set(False)
         curses.use_default_colors()
+        # self.stdscr.addstr(57,202,"A")
+        # self.stdscr.addstr(56,203,"A")
+        # self.stdscr.addstr(57,203,"A")
+        # self.stdscr.refresh()
+        # time.sleep(3)
+        # raise Exception
+
                 
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
@@ -54,7 +68,12 @@ class CellAut(object):
             for cell in row:
                 self.stdscr.addstr(cell.y, cell.x, str(cell))
         self.stdscr.refresh()
-                
+    
+    def destroy_curses(self):
+        curses.echo()
+        curses.endwin()
+        curses.curs_set(True)
+    
     class Cell(object):
         def __init__(self, parent, x, y, val, attr = {}):
             self.parent = parent
@@ -87,5 +106,15 @@ class CellAut(object):
             self.val = self.staged
 
 if __name__ == '__main__':
-    test = CellAut(blank = "0")
-    test.simulate()
+    try:
+        test = CellAut(blank = "0")
+        test.simulate()
+    except KeyboardInterrupt:
+        curses.echo()
+        curses.endwin()
+        curses.curs_set(True)
+    except BaseException as e:
+        curses.echo()
+        curses.endwin()
+        curses.curs_set(True)
+        print(traceback.format_exc())

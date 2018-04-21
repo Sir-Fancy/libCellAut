@@ -4,12 +4,13 @@ import numpy as np
 import curses
 import time
 import traceback
+import sys
 
 class Fractal(CellAut):
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
         curses.init_pair(1, curses.COLOR_GREEN, -1)
-        self.field[49,40].stage("A")
+        self.field[-1,self.cols//2].stage("A")
     
     def tick(self):
         for row in self.field:
@@ -25,16 +26,13 @@ class Fractal(CellAut):
 
 def main():
     try:
-        f = Fractal(cols = 90, rows = 50, blank = " ", speed = 0.5)
+        f = Fractal(blank = " ", speed = 0.1)
         f.simulate()
     except KeyboardInterrupt:
-        curses.echo()
-        curses.endwin()
-        curses.curs_set(True)
+        f.destroy_curses()
     except BaseException as e:
-        curses.echo()
-        curses.endwin()
-        curses.curs_set(True)
+        f.destroy_curses()
         print(traceback.format_exc())
+        
 if __name__ == '__main__':
     main()

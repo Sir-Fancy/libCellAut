@@ -46,16 +46,12 @@ class Forest(CellAut):
 
 def main():
     try:
-        f = Forest(cols = 90, rows = 50, blank = " ", speed = 1)
+        f = Forest(blank = " ", speed = 1)
         f.simulate()
     except KeyboardInterrupt:
-        curses.echo()
-        curses.endwin()
-        curses.curs_set(True)
+        f.destroy_curses()
     except BaseException as e:
-        curses.echo()
-        curses.endwin()
-        curses.curs_set(True)
+        f.destroy_curses()
         print(traceback.format_exc())
 if __name__ == '__main__':
     main()
