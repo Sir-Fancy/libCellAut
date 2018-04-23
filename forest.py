@@ -10,9 +10,9 @@ class Forest(CellAut):
         #Generate start field, init additional variables, override to change start state
         curses.init_pair(1, curses.COLOR_RED, -1)
         
-        self.growth_chance = 0.10
-        self.fire_chance = 0.005
-        self.fire_life = 2
+        self.GROWTH_CHANCE = 0.10
+        self.FIRE_CHANCE = 0.005
+        self.FIRE_LIFE = 2
         
         for row in self.field:
             for cell in row:
@@ -27,10 +27,10 @@ class Forest(CellAut):
                 elif cell.val == "&": #age fire
                     assert cell.attr["life"] > 0
                     cell.attr["life"] -= 1
-                elif cell.val == "A" and (cell.adjacent("&") > 0 or (np.random.random() < self.fire_chance)): #if adjacent to fire or random chance, enflame
+                elif cell.val == "A" and (cell.adjacent("&") > 0 or (np.random.random() < self.FIRE_CHANCE)): #if adjacent to fire or random chance, enflame
                     cell.stage("&")
-                    cell.attr["life"] = self.fire_life
-                elif cell.val == " " and cell.adjacent("A") > 0 and np.random.random() < self.growth_chance: #if adjacent to tree, chance to grow
+                    cell.attr["life"] = self.FIRE_LIFE
+                elif cell.val == " " and cell.adjacent("A") > 0 and np.random.random() < self.GROWTH_CHANCE: #if adjacent to tree, chance to grow
                     cell.stage("A")
     
     def disp(self):
