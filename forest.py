@@ -10,13 +10,15 @@ class Forest(CellAut):
         #Generate start field, init additional variables, override to change start state
         curses.init_pair(1, curses.COLOR_RED, -1)
         
+        self.START_PERCENT = 0.01
         self.GROWTH_CHANCE = 0.10
         self.FIRE_CHANCE = 0.005
-        self.FIRE_LIFE = 2
+        self.FIRE_LIFE = 3
         
         for row in self.field:
             for cell in row:
-                if np.random.random() < 0.01:
+                cell.attr["life"] = 0
+                if np.random.random() < self.START_PERCENT:
                    cell.stage("A")
     
     def tick(self):
@@ -32,6 +34,8 @@ class Forest(CellAut):
                     cell.attr["life"] = self.FIRE_LIFE
                 elif cell.val == " " and cell.adjacent("A") > 0 and np.random.random() < self.GROWTH_CHANCE: #if adjacent to tree, chance to grow
                     cell.stage("A")
+        with open("out.txt", "a") as f:
+            f.write(str([x.attr for x in self.field[0]])+"\n")
     
     def disp(self):
         for row in self.field:
@@ -49,7 +53,7 @@ class Forest(CellAut):
 
 def main():
     try:
-        f = Forest(blank = " ", speed = 1)
+        f = Forest(blank = " ", speed = .7)
         f.simulate()
     except KeyboardInterrupt:
         f.destroy_curses()

@@ -75,13 +75,13 @@ class CellAut(object):
         curses.curs_set(True)
     
     class Cell(object):
-        def __init__(self, parent, x, y, val, attr = {}):
+        def __init__(self, parent, x, y, val):
             self.parent = parent
             self.x = x
             self.y = y
             self.val = val
             self.staged = val
-            self.attr = attr
+            self.attr = {}
             
         def __str__(self):
             return self.val
