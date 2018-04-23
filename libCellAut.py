@@ -46,10 +46,10 @@ class CellAut(object):
         self.firstframe()
         self.commit()
         while True:
-            self.disp()
-            self.tick()
-            self.commit()
-            time.sleep(self.speed - ((time.time() - starttime) % self.speed))
+            self.disp()    #show everything
+            self.tick()    #process each cell
+            self.commit()  #copy staged value to actual value
+            time.sleep(self.speed - ((time.time() - starttime) % self.speed)) #sleep an accurate amount of time, accounting for time to process
 
     
     def tick(self):
