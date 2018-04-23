@@ -9,12 +9,21 @@ import sys
 class Fractal(CellAut):
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
-        self.field[20,20].stage("#")
-        self.field[21,21].stage("#")
-        self.field[22,19].stage("#")
-        self.field[22,20].stage("#")
-        self.field[22,21].stage("#")
-
+        args = sys.argv
+        if len(args) > 1:
+            if args[1] == "glider":
+                self.field[20,20].stage("#")
+                self.field[21,21].stage("#")
+                self.field[22,19].stage("#")
+                self.field[22,20].stage("#")
+                self.field[22,21].stage("#")
+            else:
+                raise RuntimeError("Preset not found")
+        else:
+            for row in self.field:
+                for cell in row:
+                    if np.random.random() < 0.1:
+                        cell.stage("#")
     
     def tick(self):
         for row in self.field:
