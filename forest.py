@@ -9,6 +9,11 @@ class Forest(CellAut):
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
         curses.init_pair(1, curses.COLOR_RED, -1)
+        
+        self.growth_chance = 0.10
+        self.fire_chance = 0.005
+        self.fire_life = 2
+        
         for row in self.field:
             for cell in row:
                 if np.random.random() < 0.01:
@@ -17,18 +22,16 @@ class Forest(CellAut):
     def tick(self):
         for row in self.field:
             for cell in row:
-                if cell.val == "&" and cell.attr["life"] == 0:
-                    cell.stage(" ") #maybe let other stuff happen after?
-                elif cell.val == "&":
+                if cell.val == "&" and cell.attr["life"] <= 0: #if fire life over, die
+                    cell.stage(" ")
+                elif cell.val == "&": #age fire
+                    assert cell.attr["life"] > 0
                     cell.attr["life"] -= 1
-                elif cell.val == "A" and cell.adjacent("&") > 0:
+                elif cell.val == "A" and (cell.adjacent("&") > 0 or (np.random.random() < self.fire_chance)): #if adjacent to fire or random chance, enflame
                     cell.stage("&")
-                    cell.attr["life"] = 3
-                elif cell.val == " " and cell.adjacent("A") > 0 and np.random.random() < 0.10:
+                    cell.attr["life"] = self.fire_life
+                elif cell.val == " " and cell.adjacent("A") > 0 and np.random.random() < self.growth_chance: #if adjacent to tree, chance to grow
                     cell.stage("A")
-                elif cell.val == "A" and np.random.random() < 0.005:
-                    cell.stage("&")
-                    cell.attr["life"] = 3
     
     def disp(self):
         for row in self.field:
