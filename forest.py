@@ -34,16 +34,14 @@ class Forest(CellAut):
                     cell.attr["life"] = self.FIRE_LIFE
                 elif cell.val == " " and cell.adjacent("A") > 0 and np.random.random() < self.GROWTH_CHANCE: #if adjacent to tree, chance to grow
                     cell.stage("A")
-        with open("out.txt", "a") as f:
-            f.write(str([x.attr for x in self.field[0]])+"\n")
     
     def disp(self):
         for row in self.field:
             for cell in row:
-                if str(cell) == "&":
-                    self.stdscr.addstr(cell.y, cell.x, str(cell), curses.color_pair(1))
+                if cell.val == "&":
+                    self.stdscr.addstr(cell.y, cell.x, cell.val, curses.color_pair(1))
                 else:
-                    self.stdscr.addstr(cell.y, cell.x, str(cell))
+                    self.stdscr.addstr(cell.y, cell.x, cell.val)
         self.stdscr.refresh()
                
         # for row in self.field:

@@ -21,7 +21,7 @@ class Fractal(CellAut):
     def disp(self):
         for row in self.field:
             for cell in row:
-                    self.stdscr.addstr(cell.y, cell.x, str(cell), curses.color_pair(1))
+                    self.stdscr.addstr(cell.y, cell.x, cell.val, curses.color_pair(1))
         self.stdscr.refresh()
 
 def main():
