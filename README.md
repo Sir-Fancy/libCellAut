@@ -5,3 +5,4 @@ Included experiments:
 * forest.py - A forest-growing simulation inspired by a cellular automaton found in the main menu of the game [SUPERHOT](https://superhotgame.com/).
 * fractal.py - A neat little fractalish thing
 * gameoflife.py - Conway's Game of Life
+* screensaver.py - A neat, evolving fractalish screensaver. (Use a very large window!)
