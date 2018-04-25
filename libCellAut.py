@@ -86,38 +86,43 @@ class CellAut(object):
         def __str__(self):
             return self.val
 
-        def adjacent(self, search):
+        def adjacent(self, search, wrap=False):
             count = 0
             for i in [(self.y-1, self.x), (self.y+1, self.x), (self.y, self.x-1), (self.y, self.x+1)]: #y always comes first! dont forget!!
-                if -1 in i:
-                    continue #skip -1 because python will wrap it around
-                try:
-                    v = self.parent.field[i].val
-                except IndexError:
-                    continue
+                if wrap:
+                    v = self.parent.field[i[0] % self.parent.rows, i[1] % self.parent.cols].val
+                else:
+                    if -1 in i:
+                        continue #skip -1 because python will wrap it around
+                    try:
+                        v = self.parent.field[i].val
+                    except IndexError:
+                        continue #skip overflows
                 if v == search:
                     count += 1
             return count
 
-        def surrounding(self, search): #like adjacent but with diagonals
+        def surrounding(self, search, wrap=False): #like adjacent but with diagonals
             count = 0
             for i in [(self.y-1, self.x), (self.y+1, self.x), (self.y, self.x-1), (self.y, self.x+1), (self.y-1, self.x-1), (self.y+1, self.x+1), (self.y-1, self.x+1), (self.y+1, self.x-1)]: 
-                if -1 in i:
-                    continue #skip -1 because python will wrap it around
-                try:
-                    v = self.parent.field[i].val
-                except IndexError:
-                    continue
+                if wrap:
+                    v = self.parent.field[i[0] % self.parent.rows, i[1] % self.parent.cols].val
+                else:
+                    if -1 in i:
+                        continue #skip -1 because python will wrap it around
+                    try:
+                        v = self.parent.field[i].val
+                    except IndexError:
+                        continue #skip overflows
                 if v == search:
                     count += 1
             return count
 
+
         def get_rel(self, y, x):
-            try:
-                v = self.parent.field[self.y + y, self.x + x].val
-                return v
-            except IndexError:
-                return self.parent.blank
+            ny, nx = self.y + y, self.x + x
+            v = self.parent.field[(ny % self.parent.rows), (nx % self.parent.cols)]
+            return v
 
         def stage(self, v):
             self.staged = v

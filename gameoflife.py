@@ -10,15 +10,16 @@ class Fractal(CellAut):
     def firstframe(self):
         #Generate start field, init additional variables, override to change start state
         args = sys.argv
-        if len(args) > 1:
-            if args[1] == "glider":
-                self.field[20,20].stage("#")
-                self.field[21,21].stage("#")
-                self.field[22,19].stage("#")
-                self.field[22,20].stage("#")
-                self.field[22,21].stage("#")
-            else:
-                raise RuntimeError("Preset not found")
+        self.wrap = False
+        if "--wrap" in args:
+            self.wrap = True
+        
+        if "glider" in args:
+            self.field[20,20].stage("#")
+            self.field[21,21].stage("#")
+            self.field[22,19].stage("#")
+            self.field[22,20].stage("#")
+            self.field[22,21].stage("#")
         else:
             for row in self.field:
                 for cell in row:
@@ -29,10 +30,10 @@ class Fractal(CellAut):
         for row in self.field:
             for cell in row:
                 if cell.val == "#":
-                    if cell.surrounding("#") < 2 or cell.surrounding("#") > 3:
+                    if cell.surrounding("#", wrap=self.wrap) < 2 or cell.surrounding("#", wrap=self.wrap) > 3:
                         cell.stage(self.blank)
                 elif cell.val == self.blank:
-                    if cell.surrounding("#") == 3:
+                    if cell.surrounding("#", wrap=self.wrap) == 3:
                         cell.stage("#")
 
 def main():

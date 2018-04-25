@@ -30,7 +30,7 @@ class Fractal(CellAut):
     def tick(self):
         try:
             for cell in self.field[self.counter]:
-                above = "".join(["1" if x == self.FILL else "0" for x in (cell.get_rel(-1, -1), cell.get_rel(-1, 0), cell.get_rel(-1, 1))]) #converts "# #" to "101". It's a mess but can't think of a better way
+                above = "".join(["1" if x == self.FILL else "0" for x in (cell.get_rel(-1, -1).val, cell.get_rel(-1, 0).val, cell.get_rel(-1, 1).val)]) #converts "# #" to "101". It's a mess but can't think of a better way
                 cell.stage(self.rules[above])
             self.counter += 1
         except IndexError:

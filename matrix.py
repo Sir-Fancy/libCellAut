@@ -24,7 +24,8 @@ class Fractal(CellAut):
         for row in self.field:
             for cell in row:
                 if cell.val == " ":
-                    if cell.get_rel(-1, 0) != " " or np.random.random() < 0.00005:
+                    y = 0 if cell.y == 0 else -1 #this is because get_rel wraps around
+                    if cell.get_rel(y, 0).val != " " or np.random.random() < 0.00005:
                         cell.stage(random.choice(self.chars))
                         cell.attr["life"] = self.CELL_LIFE
                 else:
