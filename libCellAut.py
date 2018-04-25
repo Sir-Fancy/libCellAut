@@ -92,7 +92,7 @@ class CellAut(object):
                 if -1 in i:
                     continue #skip -1 because python will wrap it around
                 try:
-                    v = str(self.parent.field[i])
+                    v = self.parent.field[i].val
                 except IndexError:
                     continue
                 if v == search:
@@ -105,12 +105,20 @@ class CellAut(object):
                 if -1 in i:
                     continue #skip -1 because python will wrap it around
                 try:
-                    v = str(self.parent.field[i])
+                    v = self.parent.field[i].val
                 except IndexError:
                     continue
                 if v == search:
                     count += 1
             return count
+
+        def get_rel(self, y, x):
+            try:
+                v = self.parent.field[self.y + y, self.x + x].val
+            except IndexError:
+                return self.parent.blank
+            else:
+                return v
 
         def stage(self, v):
             self.staged = v
