@@ -115,10 +115,9 @@ class CellAut(object):
         def get_rel(self, y, x):
             try:
                 v = self.parent.field[self.y + y, self.x + x].val
+                return v
             except IndexError:
                 return self.parent.blank
-            else:
-                return v
 
         def stage(self, v):
             self.staged = v
