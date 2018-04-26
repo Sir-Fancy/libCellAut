@@ -9,3 +9,4 @@ Included experiments:
 * highlife.py - Highlife cellular automaton similar to Conway's. (B36/S23)
 * matrix.py - The stereotypical matrix-esque visual associated with terminals.
 * screensaver.py - A neat, evolving fractalish screensaver. (Use a very large window!)
+* wireworld.py - Wireworld cellular automaton (Thanks @codekansas!)
