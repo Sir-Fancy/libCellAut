@@ -86,7 +86,7 @@ class CellAut(object):
         def __str__(self):
             return self.val
 
-        def adjacent(self, search, wrap=False):
+        def adjacent(self, search, wrap=False): #equivalent to von Neumann neighborhood
             count = 0
             for i in [(self.y-1, self.x), (self.y+1, self.x), (self.y, self.x-1), (self.y, self.x+1)]: #y always comes first! dont forget!!
                 if wrap:
@@ -102,7 +102,7 @@ class CellAut(object):
                     count += 1
             return count
 
-        def surrounding(self, search, wrap=False): #like adjacent but with diagonals
+        def surrounding(self, search, wrap=False): #like adjacent but with diagonals, equivalent to Moore neighborhood
             count = 0
             for i in [(self.y-1, self.x), (self.y+1, self.x), (self.y, self.x-1), (self.y, self.x+1), (self.y-1, self.x-1), (self.y+1, self.x+1), (self.y-1, self.x+1), (self.y+1, self.x-1)]: 
                 if wrap:
