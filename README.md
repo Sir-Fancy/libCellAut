@@ -4,6 +4,7 @@ This is a simple cellular automata library that can be used as a template. Simpl
 Included experiments:
 * brian.py - Brian's Brain cellular automaton
 * elementary.py - A simulation of 1-D [Elementary Cellular Automaton](https://en.wikipedia.org/wiki/Elementary_cellular_automaton), rule number required as argument, with optional "--random" to randomize inital state
+* elementary32.py - Like elementary.py, but with a range of 2 and a 5 cell neighborhood, thus 2^32 rules.
 * forest.py - A forest-growing simulation inspired by a cellular automaton found in the main menu of the game [SUPERHOT](https://superhotgame.com/).
 * fractal.py - A neat little fractalish thing
 * gameoflife.py - Conway's Game of Life (B2/S23)
